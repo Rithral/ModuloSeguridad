@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Seguridad.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="SeguridadStoreContainer">
+    <EntitySet Name="perfiles" EntityType="Seguridad.Store.perfiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="grupos" EntityType="Seguridad.Store.grupos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="modulos" EntityType="Seguridad.Store.modulos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="usuarios" EntityType="Seguridad.Store.usuarios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="formularios" EntityType="Seguridad.Store.formularios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="permisos" EntityType="Seguridad.Store.permisos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="permisoperfil" EntityType="Seguridad.Store.permisoperfil" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="usuariogrupo" EntityType="Seguridad.Store.usuariogrupo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="formulariopermiso" EntityType="Seguridad.Store.formulariopermiso" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="formularioperfil" Association="Seguridad.Store.formularioperfil">
+      <End Role="formulario" EntitySet="formularios" />
+      <End Role="perfil" EntitySet="perfiles" />
+    </AssociationSet>
+    <AssociationSet Name="grupoperfil" Association="Seguridad.Store.grupoperfil">
+      <End Role="grupo" EntitySet="grupos" />
+      <End Role="perfil" EntitySet="perfiles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_permisoperfil_permiso" Association="Seguridad.Store.FK_permisoperfil_permiso">
+      <End Role="permiso" EntitySet="permisos" />
+      <End Role="permisoperfil" EntitySet="permisoperfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK_permisoperfil_perfil" Association="Seguridad.Store.FK_permisoperfil_perfil">
+      <End Role="perfil" EntitySet="perfiles" />
+      <End Role="permisoperfil" EntitySet="permisoperfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK_usuariogrupo_grupo" Association="Seguridad.Store.FK_usuariogrupo_grupo">
+      <End Role="grupo" EntitySet="grupos" />
+      <End Role="usuariogrupo" EntitySet="usuariogrupo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_usuariogrupo_usuario" Association="Seguridad.Store.FK_usuariogrupo_usuario">
+      <End Role="usuario" EntitySet="usuarios" />
+      <End Role="usuariogrupo" EntitySet="usuariogrupo" />
+    </AssociationSet>
+    <AssociationSet Name="moduloformulario" Association="Seguridad.Store.moduloformulario">
+      <End Role="modulo" EntitySet="modulos" />
+      <End Role="formulario" EntitySet="formularios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_formulariopermiso_formulario" Association="Seguridad.Store.FK_formulariopermiso_formulario">
+      <End Role="formulario" EntitySet="formularios" />
+      <End Role="formulariopermiso" EntitySet="formulariopermiso" />
+    </AssociationSet>
+    <AssociationSet Name="FK_formulariopermiso_permiso" Association="Seguridad.Store.FK_formulariopermiso_permiso">
+      <End Role="permiso" EntitySet="permisos" />
+      <End Role="formulariopermiso" EntitySet="formulariopermiso" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="perfiles">
+    <Key>
+      <PropertyRef Name="per_codigo" />
+    </Key>
+    <Property Name="per_codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="formulario_frm_codigo" Type="int" Nullable="false" />
+    <Property Name="grupo_gru_codigo" Type="nvarchar" MaxLength="4" Nullable="false" />
+  </EntityType>
+  <EntityType Name="grupos">
+    <Key>
+      <PropertyRef Name="gru_codigo" />
+    </Key>
+    <Property Name="gru_codigo" Type="nvarchar" Nullable="false" MaxLength="4" />
+    <Property Name="gru_descripcion" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="gru_estado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="modulos">
+    <Key>
+      <PropertyRef Name="mod_codigo" />
+    </Key>
+    <Property Name="mod_codigo" Type="varchar" Nullable="false" MaxLength="5" />
+    <Property Name="mod_descripcion" Type="varchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="usuarios">
+    <Key>
+      <PropertyRef Name="usu_codigo" />
+    </Key>
+    <Property Name="usu_codigo" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="usu_nombre" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="usu_clave" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="usu_estado" Type="bit" Nullable="false" />
+    <Property Name="usu_email" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="formularios">
+    <Key>
+      <PropertyRef Name="frm_codigo" />
+    </Key>
+    <Property Name="frm_codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="frm_descripcion" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="frm_formulario" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="frm_estado" Type="bit" Nullable="false" />
+    <Property Name="modulo_mod_codigo" Type="varchar" MaxLength="5" Nullable="false" />
+  </EntityType>
+  <EntityType Name="permisos">
+    <Key>
+      <PropertyRef Name="per_codigo" />
+    </Key>
+    <Property Name="per_codigo" Type="nvarchar" Nullable="false" MaxLength="1" />
+    <Property Name="per_descripcion" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="permisoperfil">
+    <Key>
+      <PropertyRef Name="permiso_per_codigo" />
+      <PropertyRef Name="perfil_per_codigo" />
+    </Key>
+    <Property Name="permiso_per_codigo" Type="nvarchar" Nullable="false" MaxLength="1" />
+    <Property Name="perfil_per_codigo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="usuariogrupo">
+    <Key>
+      <PropertyRef Name="grupos_gru_codigo" />
+      <PropertyRef Name="usuario_usu_codigo" />
+    </Key>
+    <Property Name="grupos_gru_codigo" Type="nvarchar" Nullable="false" MaxLength="4" />
+    <Property Name="usuario_usu_codigo" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="formulariopermiso">
+    <Key>
+      <PropertyRef Name="formulario_frm_codigo" />
+      <PropertyRef Name="permiso_per_codigo" />
+    </Key>
+    <Property Name="formulario_frm_codigo" Type="int" Nullable="false" />
+    <Property Name="permiso_per_codigo" Type="nvarchar" Nullable="false" MaxLength="1" />
+  </EntityType>
+  <Association Name="formularioperfil">
+    <End Role="formulario" Type="Seguridad.Store.formularios" Multiplicity="1" />
+    <End Role="perfil" Type="Seguridad.Store.perfiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="formulario">
+        <PropertyRef Name="frm_codigo" />
+      </Principal>
+      <Dependent Role="perfil">
+        <PropertyRef Name="formulario_frm_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="grupoperfil">
+    <End Role="grupo" Type="Seguridad.Store.grupos" Multiplicity="1" />
+    <End Role="perfil" Type="Seguridad.Store.perfiles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="grupo">
+        <PropertyRef Name="gru_codigo" />
+      </Principal>
+      <Dependent Role="perfil">
+        <PropertyRef Name="grupo_gru_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="moduloformulario">
+    <End Role="modulo" Type="Seguridad.Store.modulos" Multiplicity="1" />
+    <End Role="formulario" Type="Seguridad.Store.formularios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modulo">
+        <PropertyRef Name="mod_codigo" />
+      </Principal>
+      <Dependent Role="formulario">
+        <PropertyRef Name="modulo_mod_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_permisoperfil_permiso">
+    <End Role="permiso" Type="Seguridad.Store.permisos" Multiplicity="1" />
+    <End Role="permisoperfil" Type="Seguridad.Store.permisoperfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="permiso">
+        <PropertyRef Name="per_codigo" />
+      </Principal>
+      <Dependent Role="permisoperfil">
+        <PropertyRef Name="permiso_per_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_permisoperfil_perfil">
+    <End Role="permisoperfil" Type="Seguridad.Store.permisoperfil" Multiplicity="*" />
+    <End Role="perfil" Type="Seguridad.Store.perfiles" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="perfil">
+        <PropertyRef Name="per_codigo" />
+      </Principal>
+      <Dependent Role="permisoperfil">
+        <PropertyRef Name="perfil_per_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_usuariogrupo_grupo">
+    <End Role="grupo" Type="Seguridad.Store.grupos" Multiplicity="1" />
+    <End Role="usuariogrupo" Type="Seguridad.Store.usuariogrupo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="grupo">
+        <PropertyRef Name="gru_codigo" />
+      </Principal>
+      <Dependent Role="usuariogrupo">
+        <PropertyRef Name="grupos_gru_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_usuariogrupo_usuario">
+    <End Role="usuariogrupo" Type="Seguridad.Store.usuariogrupo" Multiplicity="*" />
+    <End Role="usuario" Type="Seguridad.Store.usuarios" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="usu_codigo" />
+      </Principal>
+      <Dependent Role="usuariogrupo">
+        <PropertyRef Name="usuario_usu_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_formulariopermiso_formulario">
+    <End Role="formulario" Type="Seguridad.Store.formularios" Multiplicity="1" />
+    <End Role="formulariopermiso" Type="Seguridad.Store.formulariopermiso" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="formulario">
+        <PropertyRef Name="frm_codigo" />
+      </Principal>
+      <Dependent Role="formulariopermiso">
+        <PropertyRef Name="formulario_frm_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_formulariopermiso_permiso">
+    <End Role="formulariopermiso" Type="Seguridad.Store.formulariopermiso" Multiplicity="*" />
+    <End Role="permiso" Type="Seguridad.Store.permisos" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="permiso">
+        <PropertyRef Name="per_codigo" />
+      </Principal>
+      <Dependent Role="formulariopermiso">
+        <PropertyRef Name="permiso_per_codigo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Seguridad" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CONTEXTO" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="perfiles" EntityType="Seguridad.perfil" />
+          <EntitySet Name="grupos" EntityType="Seguridad.grupo" />
+          <EntitySet Name="modulos" EntityType="Seguridad.modulo" />
+          <EntitySet Name="usuarios" EntityType="Seguridad.usuario" />
+          <EntitySet Name="formularios" EntityType="Seguridad.formulario" />
+          <EntitySet Name="permisos" EntityType="Seguridad.permiso" />
+          <AssociationSet Name="formularioperfil" Association="Seguridad.formularioperfil">
+            <End Role="formulario" EntitySet="formularios" />
+            <End Role="perfil" EntitySet="perfiles" />
+          </AssociationSet>
+          <AssociationSet Name="grupoperfil" Association="Seguridad.grupoperfil">
+            <End Role="grupo" EntitySet="grupos" />
+            <End Role="perfil" EntitySet="perfiles" />
+          </AssociationSet>
+          <AssociationSet Name="permisoperfil" Association="Seguridad.permisoperfil">
+            <End Role="permiso" EntitySet="permisos" />
+            <End Role="perfil" EntitySet="perfiles" />
+          </AssociationSet>
+          <AssociationSet Name="usuariogrupo" Association="Seguridad.usuariogrupo">
+            <End Role="grupo" EntitySet="grupos" />
+            <End Role="usuario" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="moduloformulario" Association="Seguridad.moduloformulario">
+            <End Role="modulo" EntitySet="modulos" />
+            <End Role="formulario" EntitySet="formularios" />
+          </AssociationSet>
+          <AssociationSet Name="formulariopermiso" Association="Seguridad.formulariopermiso">
+            <End Role="formulario" EntitySet="formularios" />
+            <End Role="permiso" EntitySet="permisos" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="perfil">
+          <Key>
+            <PropertyRef Name="per_codigo" />
+          </Key>
+          <Property Name="per_codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <NavigationProperty Name="formulario" Relationship="Seguridad.formularioperfil" FromRole="perfil" ToRole="formulario" />
+          <NavigationProperty Name="grupo" Relationship="Seguridad.grupoperfil" FromRole="perfil" ToRole="grupo" />
+          <NavigationProperty Name="permiso" Relationship="Seguridad.permisoperfil" FromRole="perfil" ToRole="permiso" />
+        </EntityType>
+        <EntityType Name="grupo">
+          <Key>
+            <PropertyRef Name="gru_codigo" />
+          </Key>
+          <Property Name="gru_codigo" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="gru_descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gru_estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="perfil" Relationship="Seguridad.grupoperfil" FromRole="grupo" ToRole="perfil" />
+          <NavigationProperty Name="usuario" Relationship="Seguridad.usuariogrupo" FromRole="grupo" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="modulo">
+          <Key>
+            <PropertyRef Name="mod_codigo" />
+          </Key>
+          <Property Name="mod_codigo" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="mod_descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="formulario" Relationship="Seguridad.moduloformulario" FromRole="modulo" ToRole="formulario" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="usu_codigo" />
+          </Key>
+          <Property Name="usu_codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="usu_nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="usu_clave" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="usu_estado" Type="Boolean" Nullable="false" />
+          <Property Name="usu_email" Type="String" Nullable="false" />
+          <NavigationProperty Name="grupos" Relationship="Seguridad.usuariogrupo" FromRole="usuario" ToRole="grupo" />
+        </EntityType>
+        <EntityType Name="formulario">
+          <Key>
+            <PropertyRef Name="frm_codigo" />
+          </Key>
+          <Property Name="frm_codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="frm_descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="frm_formulario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="frm_estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="perfil" Relationship="Seguridad.formularioperfil" FromRole="formulario" ToRole="perfil" />
+          <NavigationProperty Name="modulo" Relationship="Seguridad.moduloformulario" FromRole="formulario" ToRole="modulo" />
+          <NavigationProperty Name="permiso" Relationship="Seguridad.formulariopermiso" FromRole="formulario" ToRole="permiso" />
+        </EntityType>
+        <EntityType Name="permiso">
+          <Key>
+            <PropertyRef Name="per_codigo" />
+          </Key>
+          <Property Name="per_codigo" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="per_descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="perfil" Relationship="Seguridad.permisoperfil" FromRole="permiso" ToRole="perfil" />
+          <NavigationProperty Name="formulario" Relationship="Seguridad.formulariopermiso" FromRole="permiso" ToRole="formulario" />
+        </EntityType>
+        <Association Name="formularioperfil">
+          <End Type="Seguridad.formulario" Role="formulario" Multiplicity="1" />
+          <End Type="Seguridad.perfil" Role="perfil" Multiplicity="*" />
+        </Association>
+        <Association Name="grupoperfil">
+          <End Type="Seguridad.grupo" Role="grupo" Multiplicity="1" />
+          <End Type="Seguridad.perfil" Role="perfil" Multiplicity="*" />
+        </Association>
+        <Association Name="permisoperfil">
+          <End Type="Seguridad.permiso" Role="permiso" Multiplicity="*" />
+          <End Type="Seguridad.perfil" Role="perfil" Multiplicity="*" />
+        </Association>
+        <Association Name="usuariogrupo">
+          <End Type="Seguridad.grupo" Role="grupo" Multiplicity="*" />
+          <End Type="Seguridad.usuario" Role="usuario" Multiplicity="*" />
+        </Association>
+        <Association Name="moduloformulario">
+          <End Type="Seguridad.modulo" Role="modulo" Multiplicity="1" />
+          <End Type="Seguridad.formulario" Role="formulario" Multiplicity="*" />
+        </Association>
+        <Association Name="formulariopermiso">
+          <End Type="Seguridad.formulario" Role="formulario" Multiplicity="*" />
+          <End Type="Seguridad.permiso" Role="permiso" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SeguridadStoreContainer" CdmEntityContainer="CONTEXTO">
+    <EntitySetMapping Name="perfiles">
+      <EntityTypeMapping TypeName="IsTypeOf(Seguridad.perfil)">
+        <MappingFragment StoreEntitySet="perfiles">
+          <ScalarProperty Name="per_codigo" ColumnName="per_codigo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="grupos">
+      <EntityTypeMapping TypeName="IsTypeOf(Seguridad.grupo)">
+        <MappingFragment StoreEntitySet="grupos">
+          <ScalarProperty Name="gru_codigo" ColumnName="gru_codigo" />
+          <ScalarProperty Name="gru_descripcion" ColumnName="gru_descripcion" />
+          <ScalarProperty Name="gru_estado" ColumnName="gru_estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="modulos">
+      <EntityTypeMapping TypeName="IsTypeOf(Seguridad.modulo)">
+        <MappingFragment StoreEntitySet="modulos">
+          <ScalarProperty Name="mod_codigo" ColumnName="mod_codigo" />
+          <ScalarProperty Name="mod_descripcion" ColumnName="mod_descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="usuarios">
+      <EntityTypeMapping TypeName="IsTypeOf(Seguridad.usuario)">
+        <MappingFragment StoreEntitySet="usuarios">
+          <ScalarProperty Name="usu_codigo" ColumnName="usu_codigo" />
+          <ScalarProperty Name="usu_nombre" ColumnName="usu_nombre" />
+          <ScalarProperty Name="usu_clave" ColumnName="usu_clave" />
+          <ScalarProperty Name="usu_estado" ColumnName="usu_estado" />
+          <ScalarProperty Name="usu_email" ColumnName="usu_email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="formularios">
+      <EntityTypeMapping TypeName="IsTypeOf(Seguridad.formulario)">
+        <MappingFragment StoreEntitySet="formularios">
+          <ScalarProperty Name="frm_codigo" ColumnName="frm_codigo" />
+          <ScalarProperty Name="frm_descripcion" ColumnName="frm_descripcion" />
+          <ScalarProperty Name="frm_formulario" ColumnName="frm_formulario" />
+          <ScalarProperty Name="frm_estado" ColumnName="frm_estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="permisos">
+      <EntityTypeMapping TypeName="IsTypeOf(Seguridad.permiso)">
+        <MappingFragment StoreEntitySet="permisos">
+          <ScalarProperty Name="per_codigo" ColumnName="per_codigo" />
+          <ScalarProperty Name="per_descripcion" ColumnName="per_descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="formularioperfil" TypeName="Seguridad.formularioperfil" StoreEntitySet="perfiles">
+      <EndProperty Name="formulario">
+        <ScalarProperty Name="frm_codigo" ColumnName="formulario_frm_codigo" />
+      </EndProperty>
+      <EndProperty Name="perfil">
+        <ScalarProperty Name="per_codigo" ColumnName="per_codigo" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="grupoperfil" TypeName="Seguridad.grupoperfil" StoreEntitySet="perfiles">
+      <EndProperty Name="grupo">
+        <ScalarProperty Name="gru_codigo" ColumnName="grupo_gru_codigo" />
+      </EndProperty>
+      <EndProperty Name="perfil">
+        <ScalarProperty Name="per_codigo" ColumnName="per_codigo" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="permisoperfil" TypeName="Seguridad.permisoperfil" StoreEntitySet="permisoperfil">
+      <EndProperty Name="permiso">
+        <ScalarProperty Name="per_codigo" ColumnName="permiso_per_codigo" />
+      </EndProperty>
+      <EndProperty Name="perfil">
+        <ScalarProperty Name="per_codigo" ColumnName="perfil_per_codigo" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="usuariogrupo" TypeName="Seguridad.usuariogrupo" StoreEntitySet="usuariogrupo">
+      <EndProperty Name="grupo">
+        <ScalarProperty Name="gru_codigo" ColumnName="grupos_gru_codigo" />
+      </EndProperty>
+      <EndProperty Name="usuario">
+        <ScalarProperty Name="usu_codigo" ColumnName="usuario_usu_codigo" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="moduloformulario" TypeName="Seguridad.moduloformulario" StoreEntitySet="formularios">
+      <EndProperty Name="modulo">
+        <ScalarProperty Name="mod_codigo" ColumnName="modulo_mod_codigo" />
+      </EndProperty>
+      <EndProperty Name="formulario">
+        <ScalarProperty Name="frm_codigo" ColumnName="frm_codigo" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="formulariopermiso" TypeName="Seguridad.formulariopermiso" StoreEntitySet="formulariopermiso">
+      <EndProperty Name="formulario">
+        <ScalarProperty Name="frm_codigo" ColumnName="formulario_frm_codigo" />
+      </EndProperty>
+      <EndProperty Name="permiso">
+        <ScalarProperty Name="per_codigo" ColumnName="permiso_per_codigo" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
